@@ -1,3 +1,5 @@
+from app.core.config import settings
+
 from fastapi import FastAPI
 
 from app.database.database import engine
@@ -13,12 +15,30 @@ from app.visit.router import router as visit_router
 from app.review.router import router as review_router
 from app.chat.router import router as chat_router
 
+from fastapi import Request
+from fastapi.responses import JSONResponse
+
+from app.core.exceptions import CustomerAlreadyExistsException
 
 app = FastAPI(
-    title="Smart Retail AI API",
+    title=settings.PROJECT_NAME,
     description="AI-Powered Smart Retail & Customer Intelligence Platform",
-    version="1.0.0",
+    version=settings.PROJECT_VERSION,
 )
+
+@app.exception_handler(CustomerAlreadyExistsException)
+async def customer_exists_exception_handler(
+    request: Request,
+    exc: CustomerAlreadyExistsException,
+):
+    return JSONResponse(
+        status_code=409,
+        content={
+            "success": False,
+            "message": exc.message,
+            "error": "duplicate_email",
+        },
+    )
 
 Base.metadata.create_all(bind=engine)
 
@@ -38,6 +58,7 @@ def root():
 @app.get("/health")
 def health():
     return {
-        "status": "Running",
-        "version": "1.0.0"
+        "status":"healthy",
+        "project":"Smart Retail AI",
+        "version":"1.0.0"
     }
