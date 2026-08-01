@@ -1,0 +1,40 @@
+# Python
+**/__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual Environment
+backend/venv/
+
+# Environment
+.env
+.env.*
+
+# VS Code
+.vscode/
+
+# Databases
+*.db
+*.sqlite3
+
+# Logs
+*.log
+
+# ML Models
+saved_models/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Python
+.pytest_cache/
+.mypy_cache/
+
+# Build
+build/
+dist/
+*.egg-info/
+
+# OS
+.DS_Store
+Thumbs.db
