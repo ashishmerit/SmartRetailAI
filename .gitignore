@@ -38,3 +38,18 @@ dist/
 # OS
 .DS_Store
 Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# ML artifacts
+ml/models/*.h5
+ml/models/*.pkl
+ml/models/*.joblib
+
+# Experiment outputs
+ml/experiments/
+
+# Jupyter checkpoints
+**/.ipynb_checkpoints/
