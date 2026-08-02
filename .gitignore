@@ -1,55 +1,40 @@
+# ===========================
 # Python
-**/__pycache__/
+# ===========================
+__pycache__/
 *.py[cod]
-*.pyo
+*$py.class
 
 # Virtual Environment
-backend/venv/
+venv/
+.venv/
 
-# Environment
+# Environment Variables
 .env
-.env.*
 
-# VS Code
+# IDE
 .vscode/
-
-# Databases
-*.db
-*.sqlite3
-
-# Logs
-*.log
-
-# ML Models
-saved_models/
+.idea/
 
 # Jupyter
 .ipynb_checkpoints/
-
-# Python
-.pytest_cache/
-.mypy_cache/
-
-# Build
-build/
-dist/
-*.egg-info/
-
-# OS
-.DS_Store
-Thumbs.db
 
 # Logs
 logs/
 *.log
 
-# ML artifacts
-ml/models/*.h5
-ml/models/*.pkl
-ml/models/*.joblib
+# Database
+*.db
+*.sqlite3
 
-# Experiment outputs
-ml/experiments/
+# ML Datasets (Don't push large datasets)
+ml/datasets/
 
-# Jupyter checkpoints
-**/.ipynb_checkpoints/
+# Python build files
+build/
+dist/
+*.egg-info/
+
+# OS Files
+.DS_Store
+Thumbs.db
