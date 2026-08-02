@@ -20,6 +20,8 @@ from fastapi.responses import JSONResponse
 
 from app.core.exceptions import CustomerAlreadyExistsException
 
+from app.face_recognition.router import router as face_router
+
 app = FastAPI(
     title=settings.PROJECT_NAME,
     description="AI-Powered Smart Retail & Customer Intelligence Platform",
@@ -46,6 +48,8 @@ app.include_router(customer_router)
 app.include_router(visit_router)
 app.include_router(review_router)
 app.include_router(chat_router)
+
+app.include_router(face_router) 
 
 
 @app.get("/")
