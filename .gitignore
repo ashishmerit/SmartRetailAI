@@ -43,3 +43,11 @@ Thumbs.db
 ml/notebooks/runs/
 # Pretrained YOLO weights
 ml/notebooks/yolo11n.pt
+
+# Internal project tracking
+PROJECT_PROGRESS.md
+DEVELOPER_NOTES.md
+
+#uploads and temptest
+static/
+temptest.ipynb
