@@ -38,3 +38,8 @@ dist/
 # OS Files
 .DS_Store
 Thumbs.db
+
+# YOLO outputs
+ml/notebooks/runs/
+# Pretrained YOLO weights
+ml/notebooks/yolo11n.pt
