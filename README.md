@@ -154,7 +154,11 @@ Detected Products
 
 ✅ Product Recognition API
 
-🚧 Visit Workflow Integration
+✅ Customer Visit Workflow
+- Face recognition identifies customer.
+- Customer lookup is performed using SQLAlchemy.
+- Visit records are created and stored in the database.
+- End-to-end API verified using Swagger.
 
 ⬜ Sentiment Analysis
 

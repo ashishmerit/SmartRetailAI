@@ -1,29 +1,44 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
+from fastapi import UploadFile
+from fastapi import File
+from fastapi import Depends
+
 from sqlalchemy.orm import Session
 
 from app.database.database import get_db
-from app.visit.schema import VisitCreate, VisitResponse
-from app.visit.service import (
-    create_visit,
-    get_all_visits,
-)
+
+from app.visit.schema import VisitResponse
+from app.visit.service import start_visit_service
 
 router = APIRouter(
-    prefix="/visits",
-    tags=["Visits"],
+
+    prefix="/visit",
+
+    tags=["Customer Visit"]
+
 )
 
 
-@router.post("/", response_model=VisitResponse)
-def create_visit_route(
-    visit: VisitCreate,
-    db: Session = Depends(get_db),
-):
-    return create_visit(db, visit)
+@router.post(
 
+    "/start",
 
-@router.get("/", response_model=list[VisitResponse])
-def get_visits_route(
-    db: Session = Depends(get_db),
+    response_model=VisitResponse
+
+)
+
+async def start_visit(
+
+    image: UploadFile = File(...),
+
+    db: Session = Depends(get_db)
+
 ):
-    return get_all_visits(db)
+
+    return start_visit_service(
+
+        image,
+
+        db
+
+    )

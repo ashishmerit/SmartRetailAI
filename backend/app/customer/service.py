@@ -36,3 +36,10 @@ def get_all_customers(db: Session):
     logger.info(f"Fetched {len(customers)} customers")
 
     return customers
+
+def get_customer_by_name(db: Session, name: str):
+    return (
+        db.query(Customer)
+        .filter(Customer.name == name)
+        .first()
+    )
