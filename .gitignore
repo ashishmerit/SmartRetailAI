@@ -26,6 +26,7 @@ logs/
 # Database
 *.db
 *.sqlite3
+*.sqbpro
 
 # ML Datasets (Don't push large datasets)
 ml/datasets/

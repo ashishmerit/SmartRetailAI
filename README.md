@@ -160,6 +160,12 @@ Detected Products
 - Visit records are created and stored in the database.
 - End-to-end API verified using Swagger.
 
+✅ Review Management
+- Customers can submit reviews through the API.
+- Reviews are linked to registered customers.
+- Reviews are accepted only if the customer has a recorded visit.
+- Review sentiment is currently stored as NULL and will be populated automatically in the upcoming Sentiment Analysis module.
+
 ⬜ Sentiment Analysis
 
 ⬜ Retail Chatbot
