@@ -166,7 +166,18 @@ Detected Products
 - Reviews are accepted only if the customer has a recorded visit.
 - Review sentiment is currently stored as NULL and will be populated automatically in the upcoming Sentiment Analysis module.
 
-⬜ Sentiment Analysis
+✅  Sentiment Analysis
+
+- TF-IDF based feature extraction
+- Logistic Regression sentiment classifier
+- Automatic sentiment prediction for customer reviews
+- Model trained in Google Colab and deployed in the FastAPI backend
+
+###  Automatic Sentiment Analysis
+
+Customer reviews are automatically analyzed using a trained TF-IDF + Logistic Regression model.
+
+The predicted sentiment is stored in the database during review creation without requiring a separate API call.
 
 ⬜ Retail Chatbot
 

@@ -30,3 +30,14 @@ label_encoder = joblib.load(
 product_detector = YOLO(
     MODEL_DIR / "product_detector.pt"
 )
+
+# Sentiment Analysis
+# -------------------------
+
+sentiment_model = joblib.load(
+    MODEL_DIR / "sentiment_model.pkl"
+)
+
+tfidf_vectorizer = joblib.load(
+    MODEL_DIR / "tfidf_vectorizer.pkl"
+)
