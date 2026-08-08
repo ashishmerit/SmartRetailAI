@@ -5,7 +5,6 @@ from pydantic import BaseModel
 class ChatCreate(BaseModel):
     customer_id: int
     user_message: str
-    bot_response: str
 
 
 class ChatResponse(BaseModel):
