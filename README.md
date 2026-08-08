@@ -61,7 +61,7 @@ An AI-powered smart retail system that combines Computer Vision, Machine Learnin
 - PyTorch
 - Ultralytics
 
-## Frontend (Upcoming)
+## Frontend
 
 - React
 - Vite
@@ -179,7 +179,15 @@ Customer reviews are automatically analyzed using a trained TF-IDF + Logistic Re
 
 The predicted sentiment is stored in the database during review creation without requiring a separate API call.
 
-⬜ Retail Chatbot
+✅ Retail Chatbot
+
+### 🤖 Hybrid Retail Chatbot
+- Rule-based intent engine
+- Customer profile queries
+- Visit history queries
+- Review and sentiment retrieval
+- Persistent conversation logging
+- Designed for future Gemini LLM fallback integration
 
 ⬜ Frontend
 

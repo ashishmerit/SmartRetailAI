@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     PROJECT_VERSION: str = "1.0.0"
 
     DATABASE_URL: str
+    GEMINI_API_KEY: str
 
     class Config:
         env_file = ".env"

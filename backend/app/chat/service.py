@@ -8,6 +8,8 @@ from app.customer.model import Customer
 from app.visit.model import Visit
 from app.review.model import Review
 
+from app.chat.gemini import ask_gemini
+from app.chat.prompts import build_prompt
 
 # -----------------------------
 # Intent Groups
@@ -119,6 +121,35 @@ def latest_review(db: Session, customer_id: int):
         .order_by(Review.id.desc())
         .first()
     )
+def recent_chat_history(
+    db: Session,
+    customer_id: int,
+    limit: int = 5,
+):
+
+    chats = (
+        db.query(Chat)
+        .filter(Chat.customer_id == customer_id)
+        .order_by(Chat.timestamp.desc())
+        .limit(limit)
+        .all()
+    )
+
+    chats.reverse()
+
+    history = []
+
+    for chat in chats:
+
+        history.append(
+            f"User: {chat.user_message}"
+        )
+
+        history.append(
+            f"Assistant: {chat.bot_response}"
+        )
+
+    return "\n".join(history)
 
 
 # -----------------------------
@@ -273,16 +304,34 @@ def create_chat(db: Session, chat: ChatCreate):
 
     else:
 
-        response = (
-            "I'm not sure how to help with that yet.\n\n"
-            "I can currently help with:\n"
-            "• Customer profile\n"
-            "• Visits\n"
-            "• Reviews\n"
-            "• Ratings\n"
-            "• Sentiment\n\n"
-            "More advanced AI assistance is coming soon."
+        visits = (db.query(func.count(Visit.id)).filter(Visit.customer_id == customer.id).scalar())
+
+        review = latest_review(
+            db,
+            customer.id
         )
+
+        sentiment = None
+
+        if review:
+            sentiment = review.sentiment
+
+        history = recent_chat_history(db,customer.id,)
+
+        prompt = build_prompt(
+
+            customer_name=customer.name,
+
+            user_message=chat.user_message,
+
+            visits=visits,
+
+            latest_sentiment=sentiment,
+
+            conversation_history=history,
+        )
+
+        response = ask_gemini(prompt)
 
     chat_record = Chat(
         customer_id=customer.id,
