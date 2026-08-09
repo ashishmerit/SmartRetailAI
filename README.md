@@ -1,218 +1,359 @@
 # 🛒 SmartRetailAI
 
-An AI-powered smart retail system that combines Computer Vision, Machine Learning and FastAPI to provide intelligent customer interaction inside a retail environment.
+> An AI-powered retail management system that combines Computer Vision, Machine Learning, Natural Language Processing, and Generative AI to deliver an intelligent in-store customer experience.
 
 ---
 
-# Features
+## 📌 Overview
 
-## 👤 Face Recognition
+SmartRetailAI is a modular retail intelligence platform designed to enhance customer experience and assist retail store operations through AI.
 
-- Customer identification using FaceNet512 embeddings
-- DeepFace for embedding extraction
-- SVM classifier for identity prediction
-- FastAPI inference API
+The system integrates multiple AI technologies into a single backend application:
 
----
+- Face Recognition for customer identification
+- Product Recognition using YOLO object detection
+- AI-powered shopping assistant using Google Gemini
+- Customer review sentiment analysis
+- Customer visit tracking
+- Incremental face learning for new customer enrollment
 
-## 🛍 Product Recognition
-
-- YOLO11 object detection
-- Grocery product detection
-- Bounding box prediction
-- Confidence scores
-- FastAPI inference API
+The backend is built with **FastAPI** using a service-oriented architecture and is designed to support future frontend and deployment integrations.
 
 ---
 
-## 😊 Sentiment Analysis (Upcoming)
+# ✨ Features
 
-- Customer review sentiment classification
-- Positive / Neutral / Negative prediction
+## 👤 Customer Management
 
----
-
-## 🤖 Retail Chatbot (Upcoming)
-
-- AI shopping assistant
-- Product recommendation
-- Customer assistance
-- Review analysis integration
+- Register and manage customers
+- Store customer information
+- Track customer visit history
+- Maintain customer review history
 
 ---
 
-# Tech Stack
+## 😊 Face Recognition
+
+Recognize returning customers using FaceNet512 embeddings and an SVM classifier.
+
+Features:
+
+- Customer identification
+- Confidence score prediction
+- Automatic visit logging
+- Incremental customer enrollment
+- Runtime model retraining
+- Hot model reloading without restarting the backend
+
+---
+
+## 📦 Product Recognition
+
+Detect retail products using a custom-trained YOLO model.
+
+Capabilities:
+
+- Product detection
+- Multiple object detection
+- Bounding box predictions
+- Real-time inference support
+
+---
+
+## 💬 AI Shopping Assistant
+
+Hybrid chatbot architecture combining deterministic rules with Google's Gemini LLM.
+
+Capabilities include:
+
+- Shopping assistance
+- Product recommendations
+- Healthy food suggestions
+- Customer-specific information
+- Retail-focused conversations
+- Conversation memory
+
+---
+
+## 😊 Sentiment Analysis
+
+Analyze customer reviews using a machine learning model trained on the IMDB dataset.
+
+Pipeline:
+
+- Text preprocessing
+- TF-IDF vectorization
+- Logistic Regression classifier
+
+Predictions:
+
+- Positive
+- Negative
+
+---
+
+## 📝 Customer Reviews
+
+- Submit reviews
+- Store ratings
+- Predict sentiment automatically
+- View review history
+
+---
+
+## 🚶 Customer Visit Tracking
+
+Automatically logs customer visits after successful face recognition.
+
+Stored information includes:
+
+- Customer
+- Visit timestamp
+- Recognition confidence
+
+---
+
+## 🧠 Incremental Learning
+
+New customers can be enrolled without rebuilding the dataset manually.
+
+Workflow:
+
+1. Register customer
+2. Capture face image
+3. Generate FaceNet512 embedding
+4. Update embedding dataset
+5. Retrain SVM model
+6. Reload recognition model
+
+---
+
+# 🏗️ System Architecture
+
+```
+                  Customer
+
+                      │
+
+              Camera / Frontend
+
+                      │
+
+          ┌───────────┴───────────┐
+
+          │                       │
+
+     Customer Enrollment      Customer Visit
+
+          │                       │
+
+          ▼                       ▼
+
+   Face Embedding           Face Recognition
+
+          │                       │
+
+          ▼                       ▼
+
+ Increment Dataset       Customer Identified
+
+          │                       │
+
+          └──────────────┬────────┘
+
+                         │
+
+                   Customer Database
+
+                         │
+
+      ┌──────────┬──────────┬────────────┐
+
+      ▼          ▼          ▼            ▼
+
+   Reviews    Products     Chatbot      Visits
+
+      │          │           │
+
+Sentiment     YOLO        Gemini AI
+```
+
+---
+
+# 🛠️ Tech Stack
 
 ## Backend
 
 - FastAPI
 - SQLAlchemy
 - SQLite
-- Pydantic
-- Uvicorn
 
 ## Machine Learning
 
+- Scikit-learn
 - DeepFace
 - FaceNet512
+- OpenCV
+- NumPy
+- Pandas
+
+## Computer Vision
+
 - YOLO11
-- Scikit-Learn
-- TensorFlow
-- PyTorch
 - Ultralytics
 
-## Frontend
+## Natural Language Processing
 
-- React
-- Vite
-- TailwindCSS
-- shadcn/ui
+- TF-IDF
+- Logistic Regression
+
+## Generative AI
+
+- Google Gemini 2.5 Flash
 
 ---
 
-# Project Structure
+# 📂 Project Structure
 
 ```
-SmartRetailAI/
-
-backend/
-    app/
-        chat/
-        customer/
-        database/
-        face_recognition/
-        ml/
-        product_recognition/
-        review/
-        visit/
-
-ml/
-    datasets/
-    notebooks/
-    saved_models/
+SmartRetailAI
+│
+├── backend
+│   ├── app
+│   │   ├── chat
+│   │   ├── customer
+│   │   ├── enrollment
+│   │   ├── ml
+│   │   ├── product
+│   │   ├── review
+│   │   ├── visit
+│   │   ├── database
+│   │   └── core
+│   │
+│   └── tests
+│
+├── ml
+│   ├── notebooks
+│   ├── datasets
+│   └── saved_models
+│
+└── README.md
 ```
 
 ---
 
-# ML Pipelines
+# 🚀 API Modules
 
-## Face Recognition
-
-Image
-
-↓
-
-DeepFace
-
-↓
-
-FaceNet512 Embeddings
-
-↓
-
-SVM
-
-↓
-
-Customer Prediction
+| Module | Status |
+|---------|--------|
+| Customer | ✅ |
+| Enrollment | ✅ |
+| Visit | ✅ |
+| Review | ✅ |
+| Chat | ✅ |
+| Product Detection | ✅ |
+| Face Recognition | ✅ |
+| Sentiment Analysis | ✅ |
 
 ---
 
-## Product Recognition
+# 🧪 Machine Learning Models
 
-Image
-
-↓
-
-YOLO11
-
-↓
-
-Bounding Boxes
-
-↓
-
-Detected Products
+| Task | Model |
+|------|-------|
+| Face Recognition | FaceNet512 + SVM |
+| Product Detection | YOLO11 |
+| Sentiment Analysis | TF-IDF + Logistic Regression |
+| Shopping Assistant | Google Gemini 2.5 Flash |
 
 ---
 
-# Current Status
+# 🔄 Current Workflow
 
-✅ Backend Foundation
+### New Customer
 
-✅ Database
+```
+Customer Registration
+        │
+        ▼
+Capture Face
+        │
+        ▼
+Generate Face Embedding
+        │
+        ▼
+Update Dataset
+        │
+        ▼
+Retrain Recognition Model
+        │
+        ▼
+Customer Ready
+```
 
-✅ Customer Module
+### Returning Customer
 
-✅ Visit Module
-
-✅ Face Recognition ML Pipeline
-
-✅ Face Recognition API
-
-✅ Product Recognition ML Pipeline
-
-✅ Product Recognition API
-
-✅ Customer Visit Workflow
-- Face recognition identifies customer.
-- Customer lookup is performed using SQLAlchemy.
-- Visit records are created and stored in the database.
-- End-to-end API verified using Swagger.
-
-✅ Review Management
-- Customers can submit reviews through the API.
-- Reviews are linked to registered customers.
-- Reviews are accepted only if the customer has a recorded visit.
-- Review sentiment is currently stored as NULL and will be populated automatically in the upcoming Sentiment Analysis module.
-
-✅  Sentiment Analysis
-
-- TF-IDF based feature extraction
-- Logistic Regression sentiment classifier
-- Automatic sentiment prediction for customer reviews
-- Model trained in Google Colab and deployed in the FastAPI backend
-
-###  Automatic Sentiment Analysis
-
-Customer reviews are automatically analyzed using a trained TF-IDF + Logistic Regression model.
-
-The predicted sentiment is stored in the database during review creation without requiring a separate API call.
-
-✅ Retail Chatbot
-
-### 🤖 Hybrid Retail Chatbot
-- Rule-based intent engine
-- Customer profile queries
-- Visit history queries
-- Review and sentiment retrieval
-- Persistent conversation logging
-- Designed for future Gemini LLM fallback integration
-
-### Customer Enrollment
-- Register new customers through a REST API.
-- Upload customer profile images.
-- Automatically generate FaceNet512 embeddings.
-- Incrementally update the face recognition dataset without using notebooks.
-
-⬜ Frontend
+```
+Camera
+    │
+    ▼
+Face Recognition
+    │
+    ▼
+Known Customer
+    │
+    ▼
+Visit Logged
+```
 
 ---
 
-# Future Scope
+# 📈 Future Work
 
-- Customer Enrollment using Face Embeddings
-- Real-time Webcam Recognition
-- Live Product Detection
-- Review Sentiment Analysis
-- AI Chatbot
-- Personalized Recommendations
-- Analytics Dashboard
-- Transition from dataset-based recognition to production identity management.
-- Google Colab used for training large ML models; backend performs inference using exported models only.
+## Backend Enhancements
+
+- JWT authentication and role-based access control
+- PostgreSQL/MySQL support
+- Inventory-aware AI assistant
+- Automatic scheduled model retraining
+- Model versioning and metadata
+- WebSocket support for real-time notifications
+- Docker containerization
+- Comprehensive unit and integration tests
+- CI/CD pipeline
 
 ---
 
-# Author
+## Frontend Development
 
-Ashish Ranjan
+A React-based frontend will be developed to provide a complete end-to-end retail management experience.
+
+Planned features include:
+
+- Customer dashboard
+- Customer enrollment interface
+- Live face recognition
+- Product detection dashboard
+- AI shopping assistant interface
+- Customer review portal
+- Analytics dashboard
+- Admin panel
+- Responsive mobile-friendly UI
+
+---
+
+# 🎯 Project Status
+
+**Backend:** ✅ Feature Complete
+
+The backend currently provides a complete AI-powered retail management platform with integrated machine learning, computer vision, sentiment analysis, and generative AI.
+
+Frontend development and deployment are work in progress.
+
+---
+
+# 👨‍💻 Author
+
+**Ashish Ranjan**
+Final Year B.Tech student
+
