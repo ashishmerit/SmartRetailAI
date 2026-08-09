@@ -45,6 +45,10 @@ ml/notebooks/runs/
 # Pretrained YOLO weights
 ml/notebooks/yolo11n.pt
 
+#embeddings
+../ml/saved_models/embeddings.npy
+../ml/saved_models/labels.npy
+
 # Internal project tracking
 PROJECT_PROGRESS.md
 DEVELOPER_NOTES.md
