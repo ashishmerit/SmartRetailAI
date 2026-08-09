@@ -15,13 +15,18 @@ MODEL_DIR = BASE_DIR / "ml" / "saved_models"
 # Face Recognition Models
 # ----------------------------
 
-svm_model = joblib.load(
-    MODEL_DIR / "face_recognition_svm.pkl"
-)
+SVM_MODEL_PATH = MODEL_DIR / "face_recognition_svm.pkl"
+LABEL_ENCODER_PATH = MODEL_DIR / "label_encoder.pkl"
 
-label_encoder = joblib.load(
-    MODEL_DIR / "label_encoder.pkl"
-)
+
+def load_face_models():
+    svm = joblib.load(SVM_MODEL_PATH)
+    encoder = joblib.load(LABEL_ENCODER_PATH)
+    return svm, encoder
+
+
+# Initial load
+svm_model, label_encoder = load_face_models()
 
 # ----------------------------
 # Product Recognition Model

@@ -5,16 +5,19 @@ import numpy as np
 from deepface import DeepFace
 
 from app.ml.model_loader import (
-    svm_model,
-    label_encoder
+    load_face_models,
 )
-
 
 class FaceRecognitionService:
 
     def __init__(self):
-        self.model = svm_model
-        self.encoder = label_encoder
+        self.reload_models()
+
+    def reload_models(self):
+
+        self.model, self.encoder = load_face_models()
+
+        print("Face Recognition models reloaded successfully.")
 
     def generate_embedding(self, image_path: str):
 

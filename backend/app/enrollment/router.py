@@ -11,6 +11,8 @@ from app.database.database import get_db
 from app.enrollment.schema import EnrollmentResponse
 from app.enrollment.service import enroll_customer
 
+from app.enrollment.service import retrain_face_service
+
 
 router = APIRouter(
 
@@ -20,6 +22,10 @@ router = APIRouter(
 
 )
 
+@router.post("/retrain")
+def retrain():
+
+    return retrain_face_service()
 
 @router.post(
 

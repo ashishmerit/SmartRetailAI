@@ -25,7 +25,7 @@ GREETING_INTENTS = [
 ]
 
 NAME_INTENTS = [
-    "name",
+    "what is my name",
     "who am i",
     "my name",
 ]
@@ -156,6 +156,26 @@ def recent_chat_history(
 # Main Chat Function
 # -----------------------------
 
+##heler func 
+
+def extract_greeting(message: str):
+
+    greeting = None
+
+    cleaned = message
+
+    for intent in GREETING_INTENTS:
+
+        if cleaned.startswith(intent):
+
+            greeting = intent
+
+            cleaned = cleaned[len(intent):].strip(" ,.!?")
+
+            break
+
+    return greeting, cleaned
+
 def create_chat(db: Session, chat: ChatCreate):
 
     customer = (
@@ -167,20 +187,18 @@ def create_chat(db: Session, chat: ChatCreate):
     if customer is None:
         raise ValueError("Customer not found")
 
+
     message = chat.user_message.lower().strip()
+
+    greeting, message = extract_greeting(message)
 
     # ---------------- Greeting ----------------
 
-    if any(intent in message for intent in GREETING_INTENTS):
-
-        response = (
-            f"Hello {customer.name}! "
-            f"How can I help you today?"
-        )
+    
 
     # ---------------- Name ----------------
 
-    elif any(intent in message for intent in NAME_INTENTS):
+    if any(intent in message for intent in NAME_INTENTS):
 
         response = f"Your name is {customer.name}."
 
@@ -332,6 +350,13 @@ def create_chat(db: Session, chat: ChatCreate):
         )
 
         response = ask_gemini(prompt)
+
+    if greeting:
+
+        response = (
+            f"Hello {customer.name}!\n\n"
+            + response
+        )
 
     chat_record = Chat(
         customer_id=customer.id,

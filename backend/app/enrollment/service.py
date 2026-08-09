@@ -16,6 +16,25 @@ from app import customer
 
 from app.ml.face_utils import (generate_embedding,append_customer,)
 
+from app.ml.face_utils import train_face_model
+
+from app.ml.face_utils import (
+    append_customer,
+    generate_embedding,
+    train_face_model,
+)
+
+from app.ml.face_recognition import face_service
+
+def retrain_face_service():
+
+    stats = train_face_model()
+
+    face_service.reload_models()
+
+    stats["message"] = "Face recognition model reloaded successfully."
+
+    return stats
 
 async def enroll_customer(
 

@@ -122,7 +122,6 @@ def append_customer(
 # ----------------------------------------------------
 # Model Training (Sprint 8.3B)
 # ----------------------------------------------------
-
 def train_face_model():
 
     embeddings, labels = load_dataset()
@@ -136,6 +135,8 @@ def train_face_model():
         kernel="linear",
 
         probability=True,
+
+        random_state=42,
 
     )
 
@@ -162,3 +163,11 @@ def train_face_model():
         LABEL_ENCODER_FILE,
 
     )
+
+    return {
+
+        "samples": len(labels),
+
+        "classes": len(encoder.classes_)
+
+    }

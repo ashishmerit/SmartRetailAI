@@ -30,11 +30,11 @@ Available Services:
 Supported Categories:
 {", ".join(SUPPORTED_PRODUCT_CATEGORIES)}
 
-Customer Information
+Customer Profile
 
 Name: {customer_name}
-Visits: {visits}
-Latest Sentiment: {latest_sentiment}
+Number of Visits: {visits}
+Latest Review Sentiment: {latest_sentiment}
 
 Previous Conversation
 
@@ -43,10 +43,6 @@ Previous Conversation
 --------------------
 
 Current Customer Question
-
-{user_message}
-
-Customer Question
 
 {user_message}
 """
