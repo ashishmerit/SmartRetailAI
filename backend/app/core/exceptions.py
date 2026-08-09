@@ -1,7 +1,17 @@
-class CustomerAlreadyExistsException(Exception):
+from fastapi import HTTPException
+
+
+class CustomerAlreadyExistsException(HTTPException):
+
     def __init__(self):
-        self.message = "Customer with this email already exists."
-        super().__init__(self.message)
+
+        super().__init__(
+
+            status_code=409,
+
+            detail="Customer with this email already exists."
+
+        )
 
 
 class CustomerNotFoundException(Exception):

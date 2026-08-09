@@ -189,6 +189,12 @@ The predicted sentiment is stored in the database during review creation without
 - Persistent conversation logging
 - Designed for future Gemini LLM fallback integration
 
+### Customer Enrollment
+- Register new customers through a REST API.
+- Upload customer profile images.
+- Automatically generate FaceNet512 embeddings.
+- Incrementally update the face recognition dataset without using notebooks.
+
 ⬜ Frontend
 
 ---
