@@ -5,6 +5,17 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
 /* :root {
   --text: #6b6375;
   --text-h: #08060d;

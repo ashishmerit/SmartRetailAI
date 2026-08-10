@@ -1,10 +1,17 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+
+import { AppShell } from "@/components/layout/AppShell"
+import Dashboard from "@/pages/Dashboard"
+
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <h1 className="text-4xl font-bold">
-        SmartRetailAI
-      </h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<AppShell />}>
+          <Route path="/" element={<Dashboard />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
