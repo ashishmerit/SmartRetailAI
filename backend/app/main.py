@@ -24,9 +24,10 @@ from app.face_recognition.router import router as face_router
 
 from app.product_recognition.router import router as product_router
 
-from app.visit.router import router as visit_router
-
 from app.enrollment.router import (router as enrollment_router)
+
+from app.auth.model import User
+from app.auth.router import router as auth_router
 
 
 app = FastAPI(
@@ -59,6 +60,7 @@ app.include_router(product_router)
 app.include_router(face_router) 
 app.include_router(visit_router)
 app.include_router(enrollment_router)
+app.include_router(auth_router)
 
 
 @app.get("/")
