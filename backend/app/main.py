@@ -29,11 +29,23 @@ from app.enrollment.router import (router as enrollment_router)
 from app.auth.model import User
 from app.auth.router import router as auth_router
 
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
     description="AI-Powered Smart Retail & Customer Intelligence Platform",
     version=settings.PROJECT_VERSION,
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.exception_handler(CustomerAlreadyExistsException)
