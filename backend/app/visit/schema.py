@@ -11,12 +11,6 @@ class VisitResponse(BaseModel):
 
     customer_id: int
 
-    customer: str
-
-    email: str
-
-    phone: str
-
     confidence: float
 
     visit_time: Optional[datetime] = None
