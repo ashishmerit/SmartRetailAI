@@ -8,6 +8,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database.database import get_db
+from app.auth.dependencies import require_admin
 
 from app.customer.schema import (
     CustomerCreate,
@@ -58,17 +59,12 @@ def create_customer_route(
 # --------------------------------------------------
 # Admin - Get All Customers
 # --------------------------------------------------
-
-@router.get(
-    "/",
-    response_model=list[CustomerResponse],
-)
+@router.get("/", response_model=list[CustomerResponse])
 def get_customers_route(
     db: Session = Depends(get_db),
-    current_user: User = Depends(require_admin),
+    current_admin=Depends(require_admin),
 ):
     return get_all_customers(db)
-
 
 # --------------------------------------------------
 # Customer - Get Own Profile

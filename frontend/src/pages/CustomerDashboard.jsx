@@ -1,53 +1,61 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Award,
   CalendarDays,
-  Mail,
   MessageSquare,
-  Phone,
   Star,
   UserRound,
 } from "lucide-react";
 
 import api from "@/api/axios";
+import { useAuth } from "@/auth/useAuth";
+
+import CustomerProfileSheet from "@/components/customer/CustomerProfileSheet";
+import ReviewForm from "@/components/customer/ReviewForm";
+
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
 export default function CustomerDashboard() {
+  const { logout } = useAuth();
+
   const [customer, setCustomer] = useState(null);
   const [visits, setVisits] = useState([]);
   const [reviews, setReviews] = useState([]);
 
+  const [profileOpen, setProfileOpen] = useState(false);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const loadDashboard = async () => {
-      try {
-        const [
-          customerResponse,
-          visitsResponse,
-          reviewsResponse,
-        ] = await Promise.all([
-          api.get("/customers/me"),
-          api.get("/customers/me/visits"),
-          api.get("/customers/me/reviews"),
-        ]);
+const loadDashboard = useCallback(async () => {
+  try {
+    const [
+      customerResponse,
+      visitsResponse,
+      reviewsResponse,
+    ] = await Promise.all([
+      api.get("/customers/me"),
+      api.get("/customers/me/visits"),
+      api.get("/customers/me/reviews"),
+    ]);
 
-        setCustomer(customerResponse.data);
-        setVisits(visitsResponse.data);
-        setReviews(reviewsResponse.data);
-      } catch (err) {
-        setError(
-          err?.response?.data?.detail ||
-            "Unable to load your customer dashboard."
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
+    setCustomer(customerResponse.data);
+    setVisits(visitsResponse.data);
+    setReviews(reviewsResponse.data);
+  } catch (err) {
+    setError(
+      err?.response?.data?.detail ||
+        "Unable to load your customer dashboard."
+    );
+  } finally {
+    setLoading(false);
+  }
+}, []);
 
-    loadDashboard();
-  }, []);
+useEffect(() => {
+  loadDashboard();
+}, [loadDashboard]);
 
   if (loading) {
     return (
@@ -59,12 +67,12 @@ export default function CustomerDashboard() {
     );
   }
 
-  if (error) {
+  if (error || !customer) {
     return (
       <div className="p-8">
         <Card className="border-destructive/30 p-6">
           <p className="text-sm text-destructive">
-            {error}
+            {error || "Customer profile unavailable."}
           </p>
         </Card>
       </div>
@@ -75,18 +83,29 @@ export default function CustomerDashboard() {
     <div className="space-y-8 p-6 md:p-8">
 
       {/* Header */}
-      <section>
-        <p className="text-sm font-medium text-primary">
-          CUSTOMER WORKSPACE
-        </p>
+      <section className="flex items-start justify-between gap-6">
+        <div>
+          <p className="text-sm font-medium text-primary">
+            CUSTOMER WORKSPACE
+          </p>
 
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight">
-          Welcome back, {customer.name}
-        </h1>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight">
+            Welcome back, {customer.name}
+          </h1>
 
-        <p className="mt-2 text-muted-foreground">
-          Here's your SmartRetailAI activity at a glance.
-        </p>
+          <p className="mt-2 text-muted-foreground">
+            Here's your SmartRetailAI activity at a glance.
+          </p>
+        </div>
+
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => setProfileOpen(true)}
+          aria-label="Open profile"
+        >
+          <UserRound />
+        </Button>
       </section>
 
       {/* Overview */}
@@ -160,71 +179,6 @@ export default function CustomerDashboard() {
 
       </section>
 
-      {/* Profile */}
-      <section>
-        <div className="mb-4">
-          <h2 className="text-xl font-semibold">
-            Your Profile
-          </h2>
-
-          <p className="text-sm text-muted-foreground">
-            Information associated with your retail account.
-          </p>
-        </div>
-
-        <Card className="divide-y">
-
-          <div className="flex items-center gap-4 p-5">
-            <div className="rounded-lg bg-muted p-2.5">
-              <UserRound className="h-4 w-4" />
-            </div>
-
-            <div>
-              <p className="text-xs text-muted-foreground">
-                Name
-              </p>
-
-              <p className="mt-1 font-medium">
-                {customer.name}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 p-5">
-            <div className="rounded-lg bg-muted p-2.5">
-              <Mail className="h-4 w-4" />
-            </div>
-
-            <div>
-              <p className="text-xs text-muted-foreground">
-                Email
-              </p>
-
-              <p className="mt-1 font-medium">
-                {customer.email}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 p-5">
-            <div className="rounded-lg bg-muted p-2.5">
-              <Phone className="h-4 w-4" />
-            </div>
-
-            <div>
-              <p className="text-xs text-muted-foreground">
-                Phone
-              </p>
-
-              <p className="mt-1 font-medium">
-                {customer.phone}
-              </p>
-            </div>
-          </div>
-
-        </Card>
-      </section>
-
       {/* Recent Visits */}
       <section>
         <div className="mb-4">
@@ -238,7 +192,6 @@ export default function CustomerDashboard() {
         </div>
 
         <Card className="overflow-hidden">
-
           {visits.length === 0 ? (
             <div className="p-8 text-center">
               <CalendarDays className="mx-auto h-8 w-8 text-muted-foreground" />
@@ -279,7 +232,6 @@ export default function CustomerDashboard() {
               ))}
             </div>
           )}
-
         </Card>
       </section>
 
@@ -295,55 +247,71 @@ export default function CustomerDashboard() {
           </p>
         </div>
 
-        <Card className="overflow-hidden">
+        <div className="grid gap-6 lg:grid-cols-2">
 
-          {reviews.length === 0 ? (
-            <div className="p-8 text-center">
-              <MessageSquare className="mx-auto h-8 w-8 text-muted-foreground" />
+          {/* Existing Reviews */}
+          <Card className="overflow-hidden">
+            {reviews.length === 0 ? (
+              <div className="p-8 text-center">
+                <MessageSquare className="mx-auto h-8 w-8 text-muted-foreground" />
 
-              <p className="mt-3 font-medium">
-                No reviews yet
-              </p>
+                <p className="mt-3 font-medium">
+                  No reviews yet
+                </p>
 
-              <p className="mt-1 text-sm text-muted-foreground">
-                Your submitted reviews will appear here.
-              </p>
-            </div>
-          ) : (
-            <div className="divide-y">
-              {reviews.slice(0, 5).map((review) => (
-                <div
-                  key={review.id}
-                  className="space-y-3 p-5"
-                >
-                  <div className="flex flex-wrap items-center justify-between gap-3">
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Your submitted reviews will appear here.
+                </p>
+              </div>
+            ) : (
+              <div className="divide-y">
+                {reviews.slice(0, 5).map((review) => (
+                  <div
+                    key={review.id}
+                    className="space-y-3 p-5"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-3">
 
-                    <div className="flex items-center gap-1">
-                      <Star className="h-4 w-4 fill-current" />
+                      <div className="flex items-center gap-1">
+                        <Star className="h-4 w-4 fill-current" />
 
-                      <span className="text-sm font-medium">
-                        {review.rating}/5
-                      </span>
+                        <span className="text-sm font-medium">
+                          {review.rating}/5
+                        </span>
+                      </div>
+
+                      {review.sentiment && (
+                        <span className="rounded-full bg-muted px-3 py-1 text-xs font-medium">
+                          {review.sentiment}
+                        </span>
+                      )}
+
                     </div>
 
-                    {review.sentiment && (
-                      <span className="rounded-full bg-muted px-3 py-1 text-xs font-medium">
-                        {review.sentiment}
-                      </span>
-                    )}
-
+                    <p className="text-sm leading-6 text-muted-foreground">
+                      "{review.review}"
+                    </p>
                   </div>
+                ))}
+              </div>
+            )}
+          </Card>
 
-                  <p className="text-sm leading-6 text-muted-foreground">
-                    "{review.review}"
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
+          {/* Review Form */}
+          <ReviewForm
+            onSubmitted={loadDashboard}
+          />
 
-        </Card>
+        </div>
       </section>
+
+      {/* Profile Sidebar */}
+      <CustomerProfileSheet
+        open={profileOpen}
+        onOpenChange={setProfileOpen}
+        customer={customer}
+        onLogout={logout}
+      />
 
     </div>
   );

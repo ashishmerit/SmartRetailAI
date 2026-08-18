@@ -2,9 +2,8 @@ from pydantic import BaseModel
 
 
 class ReviewCreate(BaseModel):
-    customer_id: int
     review: str
-    rating: int
+    rating: int 
 
 
 class ReviewResponse(BaseModel):

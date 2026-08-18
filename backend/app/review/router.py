@@ -3,6 +3,10 @@ from sqlalchemy.orm import Session
 
 from app.database.database import get_db
 
+from app.auth.dependencies import require_customer
+from app.auth.model import User
+from fastapi import APIRouter, Depends, HTTPException
+
 from app.review.schema import (
     ReviewCreate,
     ReviewResponse
@@ -19,16 +23,23 @@ router = APIRouter(
 )
 
 
-@router.post("/", response_model=ReviewResponse)
+@router.post(
+    "/",
+    response_model=ReviewResponse,
+)
 def create_review_route(
     review: ReviewCreate,
-    db: Session = Depends(get_db)
+    current_user: User = Depends(require_customer),
+    db: Session = Depends(get_db),
 ):
-    return create_review(db, review)
+    if current_user.customer_id is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Customer profile not found",
+        )
 
-
-@router.get("/", response_model=list[ReviewResponse])
-def get_reviews_route(
-    db: Session = Depends(get_db)
-):
-    return get_all_reviews(db)
+    return create_review(
+        db,
+        review,
+        current_user.customer_id,
+    )
