@@ -40,7 +40,7 @@ const navigation = [
     items: [
       {
         title: "Customers",
-        url: "/customers",
+        url: "/admin/customers",
         icon: Users,
       },
       {

@@ -11,6 +11,8 @@ import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import Dashboard from "@/pages/Dashboard";
 import CustomerDashboard from "@/pages/CustomerDashboard";
 import Login from "@/pages/Login";
+import AdminCustomers from "@/pages/AdminCustomers";
+import Enrollment from "@/pages/Enrollment";
 
 function App() {
   return (
@@ -51,6 +53,26 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/admin/customers"
+          element={
+            <ProtectedRoute role="ADMIN">
+              <AdminCustomers />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/enrollment"
+          element={
+            <ProtectedRoute role="ADMIN">
+              <AppShell />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<Enrollment />} />
+        </Route>
 
         {/* Root */}
         <Route
