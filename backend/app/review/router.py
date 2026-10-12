@@ -1,27 +1,30 @@
-from fastapi import APIRouter, Depends
+
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database.database import get_db
-
-from app.auth.dependencies import require_customer
+from app.auth.dependencies import require_admin, require_customer
 from app.auth.model import User
-from fastapi import APIRouter, Depends, HTTPException
+from app.review.schema import ReviewCreate, ReviewResponse
+from app.review.service import create_review
+from app.review.model import Review
 
-from app.review.schema import (
-    ReviewCreate,
-    ReviewResponse
-)
-
-from app.review.service import (
-    create_review,
-    get_all_reviews
-)
 
 router = APIRouter(
     prefix="/reviews",
     tags=["Reviews"]
 )
 
+@router.get("/admin", response_model=list[ReviewResponse])
+def get_reviews_for_admin(
+    db: Session = Depends(get_db),
+    current_admin: User = Depends(require_admin),
+):
+    return (
+        db.query(Review)
+        .order_by(Review.id.desc())
+        .all()
+    )
 
 @router.post(
     "/",

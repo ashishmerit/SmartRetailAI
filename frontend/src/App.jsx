@@ -13,6 +13,14 @@ import CustomerDashboard from "@/pages/CustomerDashboard";
 import Login from "@/pages/Login";
 import AdminCustomers from "@/pages/AdminCustomers";
 import Enrollment from "@/pages/Enrollment";
+import FaceRecognition from "@/pages/FaceRecognition";
+import ProductRecognition from "@/pages/ProductRecognition";
+
+import Visits from "@/pages/Visits";
+import Reviews from "@/pages/Reviews";
+import Chat from "@/pages/Chat";
+import Settings from "@/pages/Settings";
+import Analytics from "@/pages/Analytics";
 
 function App() {
   return (
@@ -73,6 +81,87 @@ function App() {
         >
           <Route index element={<Enrollment />} />
         </Route>
+
+        
+        <Route
+          path="/recognition"
+          element={
+            <ProtectedRoute role="ADMIN">
+              <AppShell />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<FaceRecognition />} />
+        </Route>
+
+        <Route
+          path="/products"
+          element={
+            <ProtectedRoute role="ADMIN">
+              <AppShell />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<ProductRecognition />} />
+        </Route>
+
+        
+<Route
+  path="/visits"
+  element={
+    <ProtectedRoute role="ADMIN">
+      <AppShell />
+    </ProtectedRoute>
+  }
+>
+  <Route index element={<Visits />} />
+</Route>
+
+<Route
+  path="/reviews"
+  element={
+    <ProtectedRoute role="ADMIN">
+      <AppShell />
+    </ProtectedRoute>
+  }
+>
+  <Route index element={<Reviews />} />
+</Route>
+
+{/* <Route
+  path="/chat"
+  element={
+    <ProtectedRoute role="ADMIN">
+      <AppShell />
+    </ProtectedRoute>
+  }
+>
+  <Route index element={<Chat />} />
+</Route> */}
+
+<Route
+  path="/settings"
+  element={
+    <ProtectedRoute role="ADMIN">
+      <AppShell />
+    </ProtectedRoute>
+  }
+>
+  <Route index element={<Settings />} />
+</Route>
+
+<Route
+  path="/analytics"
+  element={
+    <ProtectedRoute role="ADMIN">
+      <AppShell />
+    </ProtectedRoute>
+  }
+>
+  <Route index element={<Analytics />} />
+</Route>
+
+
 
         {/* Root */}
         <Route

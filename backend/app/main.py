@@ -31,6 +31,8 @@ from app.auth.router import router as auth_router
 
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.analytics.router import router as analytics_router
+
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -73,6 +75,7 @@ app.include_router(face_router)
 app.include_router(visit_router)
 app.include_router(enrollment_router)
 app.include_router(auth_router)
+app.include_router(analytics_router)
 
 
 @app.get("/")

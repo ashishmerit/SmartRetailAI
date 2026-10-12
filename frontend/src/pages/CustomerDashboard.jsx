@@ -16,6 +16,9 @@ import ReviewForm from "@/components/customer/ReviewForm";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
+import CustomerAIChat from "@/components/customer/CustomerAIChat";
+import ProductDetection from "@/components/customer/ProductDetection";
+
 export default function CustomerDashboard() {
   const { logout } = useAuth();
 
@@ -304,6 +307,18 @@ useEffect(() => {
 
         </div>
       </section>
+
+      
+      {/* Product Detection */}
+      <section id="product-detection">
+        <ProductDetection />
+      </section>
+
+      {/* Personal AI Assistant */}
+      <section id="ai-assistant">
+        <CustomerAIChat />
+      </section>
+
 
       {/* Profile Sidebar */}
       <CustomerProfileSheet

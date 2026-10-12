@@ -12,6 +12,7 @@ import api from "@/api/axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import CameraCapture from "@/components/camera/CameraCapture";
 
 export default function Enrollment() {
   const [form, setForm] = useState({
@@ -282,7 +283,7 @@ export default function Enrollment() {
                       </span>
                     </label>
 
-                    <input
+                    {/* <input
                       id="image"
                       type="file"
                       accept="image/*"
@@ -292,7 +293,26 @@ export default function Enrollment() {
                       }
                       required={!enrollment}
                       disabled={loading}
+                    /> */}
+                    <div className="space-y-2">
+                    <label className="text-sm font-medium">
+                        Capture Customer Face
+                    </label>
+
+                    <CameraCapture
+                        onCapture={(file) => {
+                        setImage(file);
+                        setError("");
+                        setSuccess("");
+                        }}
+                        disabled={loading}
                     />
+
+                    <p className="text-xs text-muted-foreground">
+                        Position the customer's face clearly in the camera and capture
+                        the image before submitting the enrollment form.
+                    </p>
+                    </div>
                   </div>
                 </>
               )}

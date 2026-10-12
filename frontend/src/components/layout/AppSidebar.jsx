@@ -73,11 +73,6 @@ const navigation = [
         url: "/reviews",
         icon: Star,
       },
-      {
-        title: "AI Assistant",
-        url: "/chat",
-        icon: Bot,
-      },
     ],
   },
   {
